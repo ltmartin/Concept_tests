@@ -24,13 +24,13 @@ class BoardUtilsTest {
 
     @Test
     void checkLineX() {
-        Character line[] = {Constants.X_MARK, Constants.X_MARK, Constants.X_MARK};
+        Character[] line = {Constants.X_MARK, Constants.X_MARK, Constants.X_MARK};
         Assertions.assertEquals(Constants.X_WINS, BoardUtils.checkLine(line));
     }
 
     @Test
     void checkLineO() {
-        Character line[] = {Constants.O_MARK, Constants.O_MARK, Constants.O_MARK};
+        Character[] line = {Constants.O_MARK, Constants.O_MARK, Constants.O_MARK};
         Assertions.assertEquals(Constants.O_WINS, BoardUtils.checkLine(line));
     }
 

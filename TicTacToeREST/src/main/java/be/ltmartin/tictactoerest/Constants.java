@@ -6,7 +6,7 @@ public interface Constants {
     byte TIE = 2;
     byte CONTINUE = 3;
     byte INITIAL_COORDINATE = Byte.MAX_VALUE;
-    char EMPTY_CHARACTER = 'E';
-    char X_MARK = 'X';
-    char O_MARK = 'O';
+    Character EMPTY_CHARACTER = 'E';
+    Character X_MARK = 'X';
+    Character O_MARK = 'O';
 }

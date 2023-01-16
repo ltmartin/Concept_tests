@@ -12,7 +12,6 @@ public class MainDiagonalChecker implements StatusChecker{
     @Override
     public byte checkStatus(Character[][] board) {
         Character[] line = {board[0][0], board[1][1], board[2][2]} ;
-        byte decision = BoardUtils.checkLine(line);
-        return decision;
+        return BoardUtils.checkLine(line);
     }
 }

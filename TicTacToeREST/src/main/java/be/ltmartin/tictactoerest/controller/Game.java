@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 import static java.lang.System.in;
 import static java.lang.System.out;
@@ -99,7 +98,7 @@ public class Game {
         return statusEvaluation.stream()
                 .distinct()
                 .dropWhile(status -> status.equals(Constants.CONTINUE))
-                .collect(Collectors.toList())
+                .toList()
                 .get(0);
     }
 

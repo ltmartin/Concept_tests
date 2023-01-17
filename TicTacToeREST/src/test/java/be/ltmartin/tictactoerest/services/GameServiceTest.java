@@ -124,14 +124,7 @@ public class GameServiceTest {
 
     @Test
     void showResultNull() {
-        Assertions.assertEquals(null, gameService.showResult((byte) 6));
+        Assertions.assertNull(gameService.showResult((byte) 6));
     }
 
-    @Test
-    void checkStatus() {
-    }
-
-    @Test
-    void validateAction() {
-    }
 }

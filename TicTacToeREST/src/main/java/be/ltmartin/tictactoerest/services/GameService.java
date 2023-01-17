@@ -6,19 +6,14 @@ import be.ltmartin.tictactoerest.checkers.StatusChecker;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.lang.System.out;
-
 @Component
 @Lazy
 public class GameService {
-    @Value("${tictactoe.testing}")
-    private boolean testing;
     private Character[][] board;
     private boolean isX_turn;
     private byte row;
@@ -44,9 +39,7 @@ public class GameService {
     public boolean newGame() {
         board = new Character[3][3];
         for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++)
-                board[i][j] = Constants.EMPTY_CHARACTER;
-
+            board[i] = new Character[]{Constants.EMPTY_CHARACTER, Constants.EMPTY_CHARACTER, Constants.EMPTY_CHARACTER};
         isX_turn = true;
         gameEnded = false;
         row = Constants.INITIAL_COORDINATE;
@@ -56,19 +49,24 @@ public class GameService {
 
 
     public String play(Integer row, Integer column, Character player) {
-        if (!gameEnded) {
-            if (!validateEntry(row, column)) return Constants.INVALID_VALUES;
-            if (validateAction(player)) {
-                performAction();
-                byte status = checkStatus();
-                if (status != Constants.CONTINUE) {
-                    gameEnded = true;
-                    return showResult(status);
-                }
-            } else return Constants.SPOT_TAKEN;
+        String validationsResult = performValidations(row, column, player);
+        if (validationsResult == null) {
+            performAction();
+            byte status = checkStatus();
+            if (status != Constants.CONTINUE) {
+                gameEnded = true;
+                return showResult(status);
+            }
+            return Constants.CONTINUE_MESSAGE;
         }
+        return null;
+    }
 
-        return Constants.GAME_ENDED;
+    private String performValidations(Integer row, Integer column, Character player) {
+        if (gameEnded) return Constants.GAME_ENDED;
+        if (!ValidationUtils.validateEntry(row, column)) return Constants.INVALID_VALUES;
+        if (!validateAction(player)) return Constants.SPOT_TAKEN;
+        return null;
     }
 
     protected String showResult(byte status) {
@@ -106,20 +104,6 @@ public class GameService {
         return ValidationUtils.validatePlayer(player, isX_turn) && ValidationUtils.validateCell(board, getRow(), getColumn());
     }
 
-
-    private boolean validateEntry(Integer row, Integer column) {
-        return ((row >= 0) && (row <= 2) && (column >= 0) && (column <= 2));
-    }
-
-    private void paintBoard() {
-        out.println("================================");
-        out.println(board[0][0] + "|" + board[0][1] + "|" + board[0][2]);
-        out.println("-----");
-        out.println(board[1][0] + "|" + board[1][1] + "|" + board[1][2]);
-        out.println("-----");
-        out.println(board[2][0] + "|" + board[2][1] + "|" + board[2][2]);
-        out.println("================================");
-    }
 
     public byte getRow() {
         return row;

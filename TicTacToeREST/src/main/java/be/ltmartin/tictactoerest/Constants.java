@@ -15,4 +15,5 @@ public interface Constants {
     String X_WINS_MESSAGE = "X is the winner.";
     String O_WINS_MESSAGE = "O is the winner.";
     String DRAW_MESSAGE = "The game is a draw.";
+    String CONTINUE_MESSAGE = "The game must continue.";
 }

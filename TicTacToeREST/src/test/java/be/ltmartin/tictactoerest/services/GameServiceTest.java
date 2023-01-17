@@ -1,4 +1,4 @@
-package be.ltmartin.tictactoerest.controller;
+package be.ltmartin.tictactoerest.services;
 
 import be.ltmartin.tictactoerest.Constants;
 import be.ltmartin.tictactoerest.TicTacToeRestApplication;
@@ -8,39 +8,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = TicTacToeRestApplication.class)
-public class GameTest {
+public class GameServiceTest {
     @Autowired
-    private Game gameController;
+    private GameService gameService;
 
     @Test
     void newGame() {
-        boolean result = gameController.newGame();
+        boolean result = gameService.newGame();
         Assertions.assertTrue(result);
     }
 
 
     @Test
     void validateActionTestEmptySpot() {
-        gameController.setRow((byte) 0);
-        gameController.setColumn((byte) 0);
-        Assertions.assertTrue(gameController.validateAction());
+        gameService.setRow((byte) 0);
+        gameService.setColumn((byte) 0);
+        Assertions.assertTrue(gameService.validateAction());
     }
 
     @Test
     void performActionX_Turn() {
-        gameController.setRow((byte) 0);
-        gameController.setColumn((byte) 0);
-        gameController.performAction();
-        Assertions.assertEquals(Constants.X_MARK, gameController.getBoard()[gameController.getRow()][gameController.getColumn()]);
+        gameService.setRow((byte) 0);
+        gameService.setColumn((byte) 0);
+        gameService.performAction();
+        Assertions.assertEquals(Constants.X_MARK, gameService.getBoard()[gameService.getRow()][gameService.getColumn()]);
     }
 
     @Test
     void performActionY_Turn() {
-        gameController.setX_turn(false);
-        gameController.setRow((byte) 0);
-        gameController.setColumn((byte) 0);
-        gameController.performAction();
-        Assertions.assertEquals(Constants.O_MARK, gameController.getBoard()[gameController.getRow()][gameController.getColumn()]);
+        gameService.setX_turn(false);
+        gameService.setRow((byte) 0);
+        gameService.setColumn((byte) 0);
+        gameService.performAction();
+        Assertions.assertEquals(Constants.O_MARK, gameService.getBoard()[gameService.getRow()][gameService.getColumn()]);
     }
 
     @Test
@@ -49,8 +49,8 @@ public class GameTest {
         board[0][0] = Constants.X_MARK;
         board[1][0] = Constants.X_MARK;
         board[2][0] = Constants.X_MARK;
-        gameController.setBoard(board);
-        Assertions.assertEquals(Constants.X_WINS, gameController.checkStatus());
+        gameService.setBoard(board);
+        Assertions.assertEquals(Constants.X_WINS, gameService.checkStatus());
     }
 
     @Test
@@ -59,8 +59,8 @@ public class GameTest {
         board[2][0] = Constants.O_MARK;
         board[2][1] = Constants.O_MARK;
         board[2][2] = Constants.O_MARK;
-        gameController.setBoard(board);
-        Assertions.assertEquals(Constants.O_WINS, gameController.checkStatus());
+        gameService.setBoard(board);
+        Assertions.assertEquals(Constants.O_WINS, gameService.checkStatus());
     }
 
     @Test
@@ -69,8 +69,8 @@ public class GameTest {
         board[0][0] = Constants.O_MARK;
         board[1][1] = Constants.O_MARK;
         board[2][2] = Constants.O_MARK;
-        gameController.setBoard(board);
-        Assertions.assertEquals(Constants.O_WINS, gameController.checkStatus());
+        gameService.setBoard(board);
+        Assertions.assertEquals(Constants.O_WINS, gameService.checkStatus());
     }
 
     @Test
@@ -79,8 +79,8 @@ public class GameTest {
         board[0][2] = Constants.O_MARK;
         board[1][1] = Constants.O_MARK;
         board[2][0] = Constants.O_MARK;
-        gameController.setBoard(board);
-        Assertions.assertEquals(Constants.O_WINS, gameController.checkStatus());
+        gameService.setBoard(board);
+        Assertions.assertEquals(Constants.O_WINS, gameService.checkStatus());
     }
 
     @Test
@@ -95,8 +95,8 @@ public class GameTest {
         board[2][0] = Constants.X_MARK;
         board[2][1] = Constants.O_MARK;
         board[2][2] = Constants.X_MARK;
-        gameController.setBoard(board);
-        Assertions.assertEquals(Constants.TIE, gameController.checkStatus());
+        gameService.setBoard(board);
+        Assertions.assertEquals(Constants.TIE, gameService.checkStatus());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class GameTest {
         board[2][0] = Constants.O_MARK;
         board[2][1] = Constants.X_MARK;
         board[2][2] = Constants.O_MARK;
-        gameController.setBoard(board);
-        Assertions.assertEquals(Constants.CONTINUE, gameController.checkStatus());
+        gameService.setBoard(board);
+        Assertions.assertEquals(Constants.CONTINUE, gameService.checkStatus());
     }
 }

@@ -1,4 +1,4 @@
-package be.ltmartin.tictactoerest.controller;
+package be.ltmartin.tictactoerest.services;
 
 import be.ltmartin.tictactoerest.Constants;
 import be.ltmartin.tictactoerest.checkers.StatusChecker;
@@ -17,7 +17,7 @@ import static java.lang.System.out;
 
 @Component
 @Lazy
-public class Game {
+public class GameService {
     @Value("${tictactoe.testing}")
     private boolean testing;
     private Character[][] board;
@@ -42,7 +42,7 @@ public class Game {
     private StatusChecker fullBoardChecker;
 
     @PostConstruct
-    protected boolean newGame() {
+    public boolean newGame() {
         board = new Character[3][3];
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
@@ -52,8 +52,6 @@ public class Game {
         gameEnded = false;
         row = Constants.INITIAL_COORDINATE;
         column = Constants.INITIAL_COORDINATE;
-        paintBoard();
-
         return true;
     }
 

@@ -18,14 +18,6 @@ public class GameServiceTest {
         Assertions.assertTrue(result);
     }
 
-
-    @Test
-    void validateActionTestEmptySpot() {
-        gameService.setRow((byte) 0);
-        gameService.setColumn((byte) 0);
-        Assertions.assertTrue(gameService.validateAction());
-    }
-
     @Test
     void performActionX_Turn() {
         gameService.setRow((byte) 0);
@@ -113,5 +105,33 @@ public class GameServiceTest {
         board[2][2] = Constants.O_MARK;
         gameService.setBoard(board);
         Assertions.assertEquals(Constants.CONTINUE, gameService.checkStatus());
+    }
+
+    @Test
+    void showResultX_Wins() {
+        Assertions.assertEquals(Constants.X_WINS_MESSAGE, gameService.showResult(Constants.X_WINS));
+    }
+
+    @Test
+    void showResultO_Wins() {
+        Assertions.assertEquals(Constants.O_WINS_MESSAGE, gameService.showResult(Constants.O_WINS));
+    }
+
+    @Test
+    void showResultDraw() {
+        Assertions.assertEquals(Constants.DRAW_MESSAGE, gameService.showResult(Constants.TIE));
+    }
+
+    @Test
+    void showResultNull() {
+        Assertions.assertEquals(null, gameService.showResult((byte) 6));
+    }
+
+    @Test
+    void checkStatus() {
+    }
+
+    @Test
+    void validateAction() {
     }
 }

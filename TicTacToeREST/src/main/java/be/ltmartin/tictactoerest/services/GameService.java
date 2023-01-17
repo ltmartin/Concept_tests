@@ -1,6 +1,7 @@
 package be.ltmartin.tictactoerest.services;
 
 import be.ltmartin.tictactoerest.Constants;
+import be.ltmartin.tictactoerest.Utils.ValidationUtils;
 import be.ltmartin.tictactoerest.checkers.StatusChecker;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
@@ -10,9 +11,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Scanner;
 
-import static java.lang.System.in;
 import static java.lang.System.out;
 
 @Component
@@ -55,88 +54,60 @@ public class GameService {
         return true;
     }
 
-    public void play() {
-        // this check is performed to avoid console interaction while testing
-        if (!testing) {
-            while (!gameEnded) {
-                readAction();
-                if (validateAction()) {
-                    performAction();
-                    paintBoard();
-                    byte status = checkStatus();
-                    if (status != Constants.CONTINUE) {
-                        gameEnded = true;
-                        paintBoard();
-                        showResult(status);
-                    }
-                } else
-                    out.println("Sorry, that spot is taken, please type other coordinates.");
-            }
+
+    public String play(Integer row, Integer column, Character player) {
+        if (!gameEnded) {
+            if (!validateEntry(row, column)) return Constants.INVALID_VALUES;
+            if (validateAction(player)) {
+                performAction();
+                byte status = checkStatus();
+                if (status != Constants.CONTINUE) {
+                    gameEnded = true;
+                    return showResult(status);
+                }
+            } else return Constants.SPOT_TAKEN;
         }
+
+        return Constants.GAME_ENDED;
     }
 
-    protected void showResult(byte status) {
+    protected String showResult(byte status) {
         switch (status) {
-            case Constants.X_WINS -> out.println("X is the winner");
-            case Constants.O_WINS ->
-                out.println("O is the winner");
-            case Constants.TIE ->
-                out.println("The game is a draw");
-
+            case Constants.X_WINS -> {
+                return Constants.X_WINS_MESSAGE;
+            }
+            case Constants.O_WINS -> {
+                return Constants.O_WINS_MESSAGE;
+            }
+            case Constants.TIE -> {
+                return Constants.DRAW_MESSAGE;
+            }
         }
+        return null;
     }
 
     protected byte checkStatus() {
-        List<Byte> statusEvaluation = List.of(horizontalChecker.checkStatus(board), verticalChecker.checkStatus(board), mainDiagonalChecker.checkStatus(board),
-                secondaryDiagonalChecker.checkStatus(board), fullBoardChecker.checkStatus(board));
+        List<Byte> statusEvaluation = List.of(horizontalChecker.checkStatus(board), verticalChecker.checkStatus(board), mainDiagonalChecker.checkStatus(board), secondaryDiagonalChecker.checkStatus(board), fullBoardChecker.checkStatus(board));
 
         if (statusEvaluation.stream().distinct().count() == 1) // all checkers recommend to continue the game
             return Constants.CONTINUE;
 
-        return statusEvaluation.stream()
-                .distinct()
-                .dropWhile(status -> status.equals(Constants.CONTINUE))
-                .toList()
-                .get(0);
+        return statusEvaluation.stream().distinct().dropWhile(status -> status.equals(Constants.CONTINUE)).toList().get(0);
     }
 
     protected void performAction() {
-        if (isX_turn)
-            board[row][column] = Constants.X_MARK;
-        else
-            board[row][column] = Constants.O_MARK;
+        if (isX_turn) board[row][column] = Constants.X_MARK;
+        else board[row][column] = Constants.O_MARK;
 
         isX_turn = !isX_turn;
     }
 
-    protected boolean validateAction() {
-        return board[row][column] == Constants.EMPTY_CHARACTER;
+    protected boolean validateAction(Character player) {
+        return ValidationUtils.validatePlayer(player, isX_turn) && ValidationUtils.validateCell(board, getRow(), getColumn());
     }
 
-    protected void readAction() {
-        boolean validValues;
-        if (isX_turn)
-            out.println("It is X turn");
-        else
-            out.println("It is O turn");
 
-        do {
-            out.println("Please introduce the row and column (both with values between 0 and 2 inclusive) where you want to play separated by space: ");
-            Scanner stdin = new Scanner(in);
-            try {
-                row = stdin.nextByte();
-                column = stdin.nextByte();
-            } catch (Exception e) {
-                out.println("Positions need to be between 0 and 2, inclusive.");
-            }
-            validValues = validateEntry(row, column);
-            if (!validValues)
-                out.println("Please, provide valid values");
-
-        } while (!validValues);
-    }
-
-    private boolean validateEntry(byte row, byte column) {
+    private boolean validateEntry(Integer row, Integer column) {
         return ((row >= 0) && (row <= 2) && (column >= 0) && (column <= 2));
     }
 
@@ -150,20 +121,20 @@ public class GameService {
         out.println("================================");
     }
 
-    public void setRow(byte row) {
-        this.row = row;
-    }
-
-    public void setColumn(byte column) {
-        this.column = column;
-    }
-
     public byte getRow() {
         return row;
     }
 
+    public void setRow(byte row) {
+        this.row = row;
+    }
+
     public byte getColumn() {
         return column;
+    }
+
+    public void setColumn(byte column) {
+        this.column = column;
     }
 
     public Character[][] getBoard() {

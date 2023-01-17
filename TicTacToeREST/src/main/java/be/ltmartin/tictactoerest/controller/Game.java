@@ -9,7 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 @Component
 @Lazy
@@ -68,48 +73,34 @@ public class Game {
                         showResult(status);
                     }
                 } else
-                    System.out.println("Sorry, that spot is taken, please type other coordinates.");
+                    out.println("Sorry, that spot is taken, please type other coordinates.");
             }
         }
     }
 
     protected void showResult(byte status) {
         switch (status) {
-            case Constants.X_WINS: {
-                System.out.println("X is the winner");
-                break;
-            }
-            case Constants.O_WINS: {
-                System.out.println("O is the winner");
-                break;
-            }
-            case Constants.TIE: {
-                System.out.println("The game is a draw");
-                break;
-            }
+            case Constants.X_WINS -> out.println("X is the winner");
+            case Constants.O_WINS ->
+                out.println("O is the winner");
+            case Constants.TIE ->
+                out.println("The game is a draw");
+
         }
     }
 
     protected byte checkStatus() {
-        byte horizontalStatus = horizontalChecker.checkStatus(board);
-        byte verticalStatus = verticalChecker.checkStatus(board);
-        byte mainDiagonalStatus = mainDiagonalChecker.checkStatus(board);
-        byte secondaryDiagonalStatus = secondaryDiagonalChecker.checkStatus(board);
-        byte fullBoardStatus = fullBoardChecker.checkStatus(board);
+        List<Byte> statusEvaluation = List.of(horizontalChecker.checkStatus(board), verticalChecker.checkStatus(board), mainDiagonalChecker.checkStatus(board),
+                secondaryDiagonalChecker.checkStatus(board), fullBoardChecker.checkStatus(board));
 
-        if ((horizontalStatus == Constants.CONTINUE) && (verticalStatus == Constants.CONTINUE) &&
-                (mainDiagonalStatus == Constants.CONTINUE) && (secondaryDiagonalStatus == Constants.CONTINUE) &&
-                (fullBoardStatus == Constants.CONTINUE))
+        if (statusEvaluation.stream().distinct().count() == 1) // all checkers recommend to continue the game
             return Constants.CONTINUE;
-        else if (horizontalStatus != Constants.CONTINUE)
-            return horizontalStatus;
-        else if (verticalStatus != Constants.CONTINUE)
-            return verticalStatus;
-        else if (mainDiagonalStatus != Constants.CONTINUE)
-            return mainDiagonalStatus;
-        else if (secondaryDiagonalStatus != Constants.CONTINUE)
-            return secondaryDiagonalStatus;
-        else return fullBoardStatus;
+
+        return statusEvaluation.stream()
+                .distinct()
+                .dropWhile(status -> status.equals(Constants.CONTINUE))
+                .collect(Collectors.toList())
+                .get(0);
     }
 
     protected void performAction() {
@@ -128,22 +119,22 @@ public class Game {
     protected void readAction() {
         boolean validValues;
         if (isX_turn)
-            System.out.println("It is X turn");
+            out.println("It is X turn");
         else
-            System.out.println("It is O turn");
+            out.println("It is O turn");
 
         do {
-            System.out.println("Please introduce the row and column (both with values between 0 and 2 inclusive) where you want to play separated by space: ");
-            Scanner stdin = new Scanner(System.in);
+            out.println("Please introduce the row and column (both with values between 0 and 2 inclusive) where you want to play separated by space: ");
+            Scanner stdin = new Scanner(in);
             try {
                 row = stdin.nextByte();
                 column = stdin.nextByte();
             } catch (Exception e) {
-                System.out.println("Positions need to be between 0 and 2, inclusive.");
+                out.println("Positions need to be between 0 and 2, inclusive.");
             }
             validValues = validateEntry(row, column);
             if (!validValues)
-                System.out.println("Please, provide valid values");
+                out.println("Please, provide valid values");
 
         } while (!validValues);
     }
@@ -153,13 +144,13 @@ public class Game {
     }
 
     private void paintBoard() {
-        System.out.println("================================");
-        System.out.println(board[0][0] + "|" + board[0][1] + "|" + board[0][2]);
-        System.out.println("-----");
-        System.out.println(board[1][0] + "|" + board[1][1] + "|" + board[1][2]);
-        System.out.println("-----");
-        System.out.println(board[2][0] + "|" + board[2][1] + "|" + board[2][2]);
-        System.out.println("================================");
+        out.println("================================");
+        out.println(board[0][0] + "|" + board[0][1] + "|" + board[0][2]);
+        out.println("-----");
+        out.println(board[1][0] + "|" + board[1][1] + "|" + board[1][2]);
+        out.println("-----");
+        out.println(board[2][0] + "|" + board[2][1] + "|" + board[2][2]);
+        out.println("================================");
     }
 
     public void setRow(byte row) {

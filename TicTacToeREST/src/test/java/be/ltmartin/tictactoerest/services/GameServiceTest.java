@@ -129,6 +129,7 @@ public class GameServiceTest {
 
     @Test
     void playContinue() {
+        gameService.newGame();
         Character[][] board = new Character[3][3];
         board[0][0] = Constants.X_MARK;
         board[0][1] = Constants.O_MARK;
@@ -143,6 +144,66 @@ public class GameServiceTest {
         String expectedResult = Constants.CONTINUE_MESSAGE;
         gameService.setX_turn(false);
         String actualResult = gameService.play(1,0, Constants.O_MARK);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    void playX_Wins() {
+        gameService.newGame();
+        Character[][] board = new Character[3][3];
+        board[0][0] = Constants.X_MARK;
+        board[0][1] = Constants.O_MARK;
+        board[0][2] = Constants.X_MARK;
+        board[1][0] = Constants.O_MARK;
+        board[1][1] = Constants.X_MARK;
+        board[1][2] = Constants.O_MARK;
+        board[2][0] = Constants.O_MARK;
+        board[2][1] = Constants.EMPTY_CHARACTER;
+        board[2][2] = Constants.EMPTY_CHARACTER;
+        gameService.setBoard(board);
+        String expectedResult = Constants.X_WINS_MESSAGE;
+        gameService.setX_turn(true);
+        String actualResult = gameService.play(2,2, Constants.X_MARK);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    void playO_Wins() {
+        gameService.newGame();
+        Character[][] board = new Character[3][3];
+        board[0][0] = Constants.X_MARK;
+        board[0][1] = Constants.O_MARK;
+        board[0][2] = Constants.X_MARK;
+        board[1][0] = Constants.X_MARK;
+        board[1][1] = Constants.O_MARK;
+        board[1][2] = Constants.EMPTY_CHARACTER;
+        board[2][0] = Constants.EMPTY_CHARACTER;
+        board[2][1] = Constants.EMPTY_CHARACTER;
+        board[2][2] = Constants.EMPTY_CHARACTER;
+        gameService.setBoard(board);
+        String expectedResult = Constants.O_WINS_MESSAGE;
+        gameService.setX_turn(false);
+        String actualResult = gameService.play(2,1, Constants.O_MARK);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
+    void playDraw() {
+        gameService.newGame();
+        Character[][] board = new Character[3][3];
+        board[0][0] = Constants.X_MARK;
+        board[0][1] = Constants.O_MARK;
+        board[0][2] = Constants.X_MARK;
+        board[1][0] = Constants.X_MARK;
+        board[1][1] = Constants.O_MARK;
+        board[1][2] = Constants.X_MARK;
+        board[2][0] = Constants.O_MARK;
+        board[2][1] = Constants.X_MARK;
+        board[2][2] = Constants.EMPTY_CHARACTER;
+        gameService.setBoard(board);
+        String expectedResult = Constants.DRAW_MESSAGE;
+        gameService.setX_turn(false);
+        String actualResult = gameService.play(2,2, Constants.O_MARK);
         Assertions.assertEquals(expectedResult, actualResult);
     }
 }

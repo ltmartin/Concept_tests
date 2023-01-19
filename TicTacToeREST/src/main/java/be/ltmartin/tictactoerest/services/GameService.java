@@ -16,8 +16,8 @@ import java.util.List;
 public class GameService {
     private Character[][] board;
     private boolean isX_turn;
-    private byte row;
-    private byte column;
+    private Integer row;
+    private Integer column;
     private boolean gameEnded;
     @Resource
     @Qualifier("horizontal")
@@ -47,8 +47,9 @@ public class GameService {
         return true;
     }
 
-
     public String play(Integer row, Integer column, Character player) {
+        this.row = row;
+        this.column = column;
         String validationsResult = performValidations(row, column, player);
         if (validationsResult == null) {
             performAction();
@@ -105,19 +106,19 @@ public class GameService {
     }
 
 
-    public byte getRow() {
+    public Integer getRow() {
         return row;
     }
 
-    public void setRow(byte row) {
+    public void setRow(Integer row) {
         this.row = row;
     }
 
-    public byte getColumn() {
+    public Integer getColumn() {
         return column;
     }
 
-    public void setColumn(byte column) {
+    public void setColumn(Integer column) {
         this.column = column;
     }
 

@@ -20,8 +20,8 @@ public class GameServiceTest {
 
     @Test
     void performActionX_Turn() {
-        gameService.setRow((byte) 0);
-        gameService.setColumn((byte) 0);
+        gameService.setRow(0);
+        gameService.setColumn(0);
         gameService.performAction();
         Assertions.assertEquals(Constants.X_MARK, gameService.getBoard()[gameService.getRow()][gameService.getColumn()]);
     }
@@ -29,8 +29,8 @@ public class GameServiceTest {
     @Test
     void performActionY_Turn() {
         gameService.setX_turn(false);
-        gameService.setRow((byte) 0);
-        gameService.setColumn((byte) 0);
+        gameService.setRow(0);
+        gameService.setColumn(0);
         gameService.performAction();
         Assertions.assertEquals(Constants.O_MARK, gameService.getBoard()[gameService.getRow()][gameService.getColumn()]);
     }
@@ -127,4 +127,22 @@ public class GameServiceTest {
         Assertions.assertNull(gameService.showResult((byte) 6));
     }
 
+    @Test
+    void playContinue() {
+        Character[][] board = new Character[3][3];
+        board[0][0] = Constants.X_MARK;
+        board[0][1] = Constants.O_MARK;
+        board[0][2] = Constants.X_MARK;
+        board[1][0] = Constants.EMPTY_CHARACTER;
+        board[1][1] = Constants.EMPTY_CHARACTER;
+        board[1][2] = Constants.EMPTY_CHARACTER;
+        board[2][0] = Constants.EMPTY_CHARACTER;
+        board[2][1] = Constants.EMPTY_CHARACTER;
+        board[2][2] = Constants.EMPTY_CHARACTER;
+        gameService.setBoard(board);
+        String expectedResult = Constants.CONTINUE_MESSAGE;
+        gameService.setX_turn(false);
+        String actualResult = gameService.play(1,0, Constants.O_MARK);
+        Assertions.assertEquals(expectedResult, actualResult);
+    }
 }

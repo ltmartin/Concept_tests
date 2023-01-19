@@ -8,7 +8,7 @@ public class ValidationUtils {
         else return Constants.O_MARK == player;
     }
 
-    public static boolean validateCell(Character[][] board, Byte row, Byte column) {
+    public static boolean validateCell(Character[][] board, Integer row, Integer column) {
         return board[row][column] == Constants.EMPTY_CHARACTER;
     }
 

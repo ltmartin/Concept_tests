@@ -19,6 +19,9 @@ public class BoardUtils {
     }
 
     public static byte checkLine(Character[] line){
+        if (Arrays.asList(line).contains(Constants.EMPTY_CHARACTER))
+            return Constants.CONTINUE;
+
         List<Character> mark = Arrays.stream(line)
                 .filter(Objects::nonNull)
                 .distinct()

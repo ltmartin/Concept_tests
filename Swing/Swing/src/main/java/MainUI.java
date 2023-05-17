@@ -3,6 +3,7 @@ public class MainUI {
         //new ButtonsFrame();
         //new BorderLayoutFrame();
         //new FlowLayoutFrame();
-        new GridLayoutFrame();
+        //new GridLayoutFrame();
+        new JLayeredPaneFrame();
     }
 }

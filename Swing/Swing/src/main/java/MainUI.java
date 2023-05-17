@@ -20,6 +20,8 @@ public class MainUI {
 //                null);
 
         //new JTextFieldFrame();
-        new JCheckBoxFrame();
+        //new JCheckBoxFrame();
+        //new JRadioButtonFrame();
+        new JComboBoxFrame();
     }
 }

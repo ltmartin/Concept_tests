@@ -4,6 +4,7 @@ public class MainUI {
         //new BorderLayoutFrame();
         //new FlowLayoutFrame();
         //new GridLayoutFrame();
-        new JLayeredPaneFrame();
+        //new JLayeredPaneFrame();
+        new LaunchPage();
     }
 }

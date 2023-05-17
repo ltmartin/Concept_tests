@@ -22,6 +22,7 @@ public class MainUI {
         //new JTextFieldFrame();
         //new JCheckBoxFrame();
         //new JRadioButtonFrame();
-        new JComboBoxFrame();
+        //new JComboBoxFrame();
+        new SliderDemo();
     }
 }

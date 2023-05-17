@@ -19,6 +19,7 @@ public class MainUI {
 //                responses,
 //                null);
 
-        new JTextFieldFrame();
+        //new JTextFieldFrame();
+        new JCheckBoxFrame();
     }
 }

@@ -5,6 +5,7 @@ import be.ltmartin.springdemo.repository.SpeakerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service(SpeakerService.SPEAKER_SERVICE_BEAN_NAME)
@@ -14,11 +15,15 @@ public class SpeakerServiceImpl implements SpeakerService {
     public SpeakerServiceImpl() {
         System.out.println(this.getClass().getName() + " parameterless constructor");
     }
-
     @Autowired
     public SpeakerServiceImpl(SpeakerRepository repository) {
         System.out.println(this.getClass().getName() + " parameter constructor");
         this.repository = repository;
+    }
+
+    @PostConstruct
+    private void init(){
+        System.out.println("Called after constructor.");
     }
 
     @Override

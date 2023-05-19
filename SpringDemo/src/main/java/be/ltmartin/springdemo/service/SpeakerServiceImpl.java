@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service(SpeakerService.SPEAKER_SERVICE_BEAN_NAME)
 public class SpeakerServiceImpl implements SpeakerService {
     private SpeakerRepository repository;
 
@@ -15,6 +15,7 @@ public class SpeakerServiceImpl implements SpeakerService {
         System.out.println(this.getClass().getName() + " parameterless constructor");
     }
 
+    @Autowired
     public SpeakerServiceImpl(SpeakerRepository repository) {
         System.out.println(this.getClass().getName() + " parameter constructor");
         this.repository = repository;
@@ -25,9 +26,4 @@ public class SpeakerServiceImpl implements SpeakerService {
         return repository.findAll();
     }
 
-    @Autowired
-    public void setRepository(SpeakerRepository repository) {
-        System.out.println(this.getClass().getName() + " setter");
-        this.repository = repository;
-    }
 }

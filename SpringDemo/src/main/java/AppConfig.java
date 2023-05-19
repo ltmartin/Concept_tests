@@ -4,21 +4,12 @@ import be.ltmartin.springdemo.service.SpeakerService;
 import be.ltmartin.springdemo.service.SpeakerServiceImpl;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
+@ComponentScan({"be.ltmartin.springdemo"})
 public class AppConfig {
-    public static final String SPEAKER_SERVICE_BEAN_NAME = "speakerService";
-    public static final String SPEAKER_REPOSITORY_BEAN_NAME = "speakerRepository";
-    @Bean(name = SPEAKER_SERVICE_BEAN_NAME)
-    @Scope(value = BeanDefinition.SCOPE_SINGLETON)
-    public SpeakerService getSpeakerService(){
-        return new SpeakerServiceImpl();
-    }
 
-    @Bean(name = SPEAKER_REPOSITORY_BEAN_NAME)
-    public SpeakerRepository getSpeakerRepository(){
-        return new HibernateSpeakerRepositoryImpl();
-    }
 }

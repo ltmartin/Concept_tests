@@ -14,8 +14,7 @@ public class AppConfig {
     @Bean(name = SPEAKER_SERVICE_BEAN_NAME)
     @Scope(value = BeanDefinition.SCOPE_SINGLETON)
     public SpeakerService getSpeakerService(){
-        SpeakerServiceImpl speakerService = new SpeakerServiceImpl(getSpeakerRepository());
-        return speakerService;
+        return new SpeakerServiceImpl(getSpeakerRepository());
     }
 
     @Bean(name = SPEAKER_REPOSITORY_BEAN_NAME)

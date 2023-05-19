@@ -6,7 +6,7 @@ import be.ltmartin.springdemo.repository.SpeakerRepository;
 import java.util.List;
 
 public class SpeakerServiceImpl implements SpeakerService {
-    private SpeakerRepository repository;
+    private final SpeakerRepository repository;
 
     public SpeakerServiceImpl(SpeakerRepository repository) {
         this.repository = repository;

@@ -2,6 +2,8 @@ package be.ltmartin.conferencecalendar.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity(name = "sessions")
 public class Session {
     @Id
@@ -12,6 +14,21 @@ public class Session {
     @Column(length = 1024)
     private String session_description;
     private Integer session_length;
+    @ManyToMany
+    @JoinTable(
+            name = "session_speakers",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "speaker_id")
+    )
+    private List<Speaker> speakers;
+
+    public List<Speaker> getSpeakers() {
+        return speakers;
+    }
+
+    public void setSpeakers(List<Speaker> speakers) {
+        this.speakers = speakers;
+    }
 
     public Long getSession_id() {
         return session_id;

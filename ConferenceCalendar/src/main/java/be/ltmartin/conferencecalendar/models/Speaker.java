@@ -1,5 +1,6 @@
 package be.ltmartin.conferencecalendar.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class Speaker {
         this.speaker_photo = speaker_photo;
     }
 
+    @JsonIgnore // this annotation solves the recursive problem when the serialization of the entity occurs
     @ManyToMany(mappedBy = "speakers")
     private List<Session> sessions;
 

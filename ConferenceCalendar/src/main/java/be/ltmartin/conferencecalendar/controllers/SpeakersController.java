@@ -2,6 +2,7 @@ package be.ltmartin.conferencecalendar.controllers;
 
 import be.ltmartin.conferencecalendar.models.Speaker;
 import be.ltmartin.conferencecalendar.repositories.SpeakerRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,20 @@ public class SpeakersController {
     @PostMapping
     public ResponseEntity<Speaker> create(@RequestBody final Speaker speaker){
         return new ResponseEntity<>(this.speakerRepository.saveAndFlush(speaker), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping
+    @RequestMapping("{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable Long id){
+        this.speakerRepository.deleteById(id);
+    }
+    @PutMapping
+    @RequestMapping("{id}")
+    public ResponseEntity<Speaker> update(@PathVariable final Long id, @RequestBody final Speaker speaker){
+        Speaker existingSpeaker = this.speakerRepository.getReferenceById(id);
+        BeanUtils.copyProperties(speaker, existingSpeaker, "speaker_id");
+        return new ResponseEntity<>(this.speakerRepository.saveAndFlush(existingSpeaker),
+                HttpStatus.OK);
     }
 }

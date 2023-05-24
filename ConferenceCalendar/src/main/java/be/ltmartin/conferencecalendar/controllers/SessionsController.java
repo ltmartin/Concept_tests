@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +21,7 @@ public class SessionsController {
     }
     @GetMapping
     public ResponseEntity<List<Session>> list(){
-        List<Session> sessions = new ArrayList<>(this.sessionRepository.findAll());
+        List<Session> sessions = this.sessionRepository.findAll();
         return ResponseEntity.ok(sessions);
     }
     @GetMapping

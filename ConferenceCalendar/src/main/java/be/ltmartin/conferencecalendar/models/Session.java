@@ -2,10 +2,18 @@ package be.ltmartin.conferencecalendar.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity(name = "sessions")
+//These annotations are for testing
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+// till here
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // this annotation solves problems in the serialization of the entity created by the Hibernate Lazy initializer
 public class Session {
     @Id

@@ -57,6 +57,19 @@ class SessionsControllerTest {
 
     @Test
     void get() {
+        Session session1 = Session.builder()
+                .session_id(1L)
+                .session_name("session1_name")
+                .session_length(1)
+                .session_description("session1 description")
+                .build();
+
+        when(sessionRepository.getReferenceById(1L)).thenReturn(session1);
+
+        ResponseEntity<Session> foundSession = sessionsController.get(1L);
+
+        Assertions.assertEquals(foundSession.getBody(), session1);
+        Assertions.assertEquals(foundSession.getStatusCode(), HttpStatus.FOUND);
     }
 
     @Test

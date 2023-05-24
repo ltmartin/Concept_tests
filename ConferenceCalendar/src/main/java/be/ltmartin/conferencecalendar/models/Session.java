@@ -1,10 +1,12 @@
 package be.ltmartin.conferencecalendar.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity(name = "sessions")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // this annotation solves problems in the serialization of the entity created by the Hibernate Lazy initializer
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

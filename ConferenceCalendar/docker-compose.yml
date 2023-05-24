@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  PostgreSQL:
+    image: postgres:11.5-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Welcome
+    volumes:
+      - conferenceCalendar:/var/lib/postgresql/data
+volumes:
+  conferenceCalendar:

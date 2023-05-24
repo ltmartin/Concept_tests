@@ -24,8 +24,8 @@ public class SessionsController {
         return new ResponseEntity<>(this.sessionRepository.findAll(), HttpStatus.OK);
     }
     @GetMapping
-    @RequestMapping("{id}")
-    public ResponseEntity<Session> get(@PathVariable Long id){
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<Session> get(@PathVariable final Long id){
         Optional<Session> sessionOptional = Optional.of(this.sessionRepository.getReferenceById(id));
         return sessionOptional.map(session -> new ResponseEntity<>(session, HttpStatus.FOUND))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -36,14 +36,14 @@ public class SessionsController {
     }
 
     @DeleteMapping
-    @RequestMapping("{id}")
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable Long id){
+    public void delete(@PathVariable final Long id){
         this.sessionRepository.deleteById(id);
     }
 
     @PutMapping
-    @RequestMapping("{id}")
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<Session> update(@PathVariable final Long id, @RequestBody final Session session){
         Session existingSession = this.sessionRepository.getReferenceById(id);
         BeanUtils.copyProperties(session, existingSession, "session_id");

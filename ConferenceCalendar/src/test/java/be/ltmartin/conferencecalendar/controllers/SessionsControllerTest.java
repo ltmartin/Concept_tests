@@ -34,6 +34,7 @@ class SessionsControllerTest {
     private Session session1, session2, session3;
 
     @BeforeEach
+    @SuppressWarnings("unused")
     private void init(){
         session1 = Session.builder()
                 .session_id(1L)
@@ -87,8 +88,7 @@ class SessionsControllerTest {
     }
 
     @Test
-    void create() {
-        try {
+    void create() throws Exception{
         given(sessionRepository.saveAndFlush(ArgumentMatchers.any()))
                 .willAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
 
@@ -97,16 +97,29 @@ class SessionsControllerTest {
                     .content(objectMapper.writeValueAsString(session1)));
 
             response.andExpect(MockMvcResultMatchers.status().isCreated());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Test
-    void delete() {
+    void delete() throws Exception{
+        ResultActions response = mockMvc.perform(
+                MockMvcRequestBuilders.delete("/api/v1/sessions/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        response.andExpect(MockMvcResultMatchers.status().isAccepted());
     }
 
     @Test
-    void update() {
+    void update() throws Exception{
+        when(sessionRepository.getReferenceById(1L)).thenReturn(session1);
+        when(sessionRepository.saveAndFlush(ArgumentMatchers.any()))
+                .thenReturn(session1);
+
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/sessions/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(session1)));
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(result -> result.getResponse().getContentAsString().equals(session1.toString()));
     }
 }

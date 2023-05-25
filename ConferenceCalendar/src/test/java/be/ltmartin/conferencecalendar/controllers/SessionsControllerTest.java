@@ -66,14 +66,19 @@ class SessionsControllerTest {
     }
 
     @Test
-    void list() {
+    void list() throws Exception {
         List<Session> sessions = List.of(session1, session2, session3);
 
         when(sessionRepository.findAll()).thenReturn(sessions);
 
-        ResponseEntity<List<Session>> response = sessionsController.list();
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
-        Assertions.assertEquals(response.getBody(), sessions);
+        ResultActions response = mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/sessions")
+                        .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        response.andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(result -> result.getResponse().getContentAsString().equals(sessions.toString()));
+
     }
 
     @Test

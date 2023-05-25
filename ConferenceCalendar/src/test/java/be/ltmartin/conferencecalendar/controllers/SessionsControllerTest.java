@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = SessionsController.class)
@@ -101,6 +102,7 @@ class SessionsControllerTest {
 
     @Test
     void delete() throws Exception{
+        doNothing().when(sessionRepository).deleteById(1L);
         ResultActions response = mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/v1/sessions/1")
                         .contentType(MediaType.APPLICATION_JSON)

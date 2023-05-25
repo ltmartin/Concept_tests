@@ -21,7 +21,6 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-//@SpringBootTest(classes = ConferenceCalendarApplication.class)
 @WebMvcTest(controllers = SessionsController.class)
 @AutoConfigureMockMvc(addFilters = false)
 class SessionsControllerTest {
